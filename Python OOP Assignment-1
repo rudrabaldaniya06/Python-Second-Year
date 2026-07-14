@@ -1,0 +1,148 @@
+class Book:
+    def __init__(self, book_id, title, author):
+        self.book_id = book_id
+        self.title = title
+        self.author = author
+        self.available = True
+
+
+class Patron:
+    def __init__(self, patron_id, name):
+        self.patron_id = patron_id
+        self.name = name
+
+
+class Library:
+    def __init__(self):
+        self.books = []
+        self.patrons = []
+
+    # Add Book
+    def add_book(self):
+        book_id = int(input("Enter Book ID: "))
+        title = input("Enter Book Title: ")
+        author = input("Enter Author Name: ")
+
+        for book in self.books:
+            if book.book_id == book_id:
+                print("Book ID already exists!\n")
+                return
+
+        new_book = Book(book_id, title, author)
+        self.books.append(new_book)
+        print("Book Added Successfully!\n")
+
+    # Register Patron
+    def register_patron(self):
+        patron_id = int(input("Enter Patron ID: "))
+        name = input("Enter Patron Name: ")
+
+        for patron in self.patrons:
+            if patron.patron_id == patron_id:
+                print("Patron ID already exists!\n")
+                return
+
+        new_patron = Patron(patron_id, name)
+        self.patrons.append(new_patron)
+        print("Patron Registered Successfully!\n")
+
+    # Display Books
+    def display_books(self):
+        if len(self.books) == 0:
+            print("No Books Available.\n")
+            return
+
+        print("\n------ Book List ------")
+        for book in self.books:
+            status = "Available" if book.available else "Borrowed"
+            print(f"ID: {book.book_id}")
+            print(f"Title: {book.title}")
+            print(f"Author: {book.author}")
+            print(f"Status: {status}")
+            print("----------------------")
+
+    # Display Patrons
+    def display_patrons(self):
+        if len(self.patrons) == 0:
+            print("No Patrons Registered.\n")
+            return
+
+        print("\n------ Patron List ------")
+        for patron in self.patrons:
+            print(f"ID: {patron.patron_id}")
+            print(f"Name: {patron.name}")
+            print("----------------------")
+
+    # Borrow Book
+    def borrow_book(self):
+        book_id = int(input("Enter Book ID to Borrow: "))
+
+        for book in self.books:
+            if book.book_id == book_id:
+                if book.available:
+                    book.available = False
+                    print("Book Borrowed Successfully!\n")
+                else:
+                    print("Book is Already Borrowed!\n")
+                return
+
+        print("Book Not Found!\n")
+
+    # Return Book
+    def return_book(self):
+        book_id = int(input("Enter Book ID to Return: "))
+
+        for book in self.books:
+            if book.book_id == book_id:
+                if not book.available:
+                    book.available = True
+                    print("Book Returned Successfully!\n")
+                else:
+                    print("This Book was not Borrowed.\n")
+                return
+
+        print("Book Not Found!\n")
+
+
+def main():
+    library = Library()
+
+    while True:
+        print("\n========== Library Management System ==========")
+        print("1. Add Book")
+        print("2. Register Patron")
+        print("3. Display Books")
+        print("4. Display Patrons")
+        print("5. Borrow Book")
+        print("6. Return Book")
+        print("7. Exit")
+
+        choice = input("Enter Your Choice: ")
+
+        if choice == "1":
+            library.add_book()
+
+        elif choice == "2":
+            library.register_patron()
+
+        elif choice == "3":
+            library.display_books()
+
+        elif choice == "4":
+            library.display_patrons()
+
+        elif choice == "5":
+            library.borrow_book()
+
+        elif choice == "6":
+            library.return_book()
+
+        elif choice == "7":
+            print("Thank You!")
+            break
+
+        else:
+            print("Invalid Choice! Please Try Again.\n")
+
+if __name__ == "__main__":
+    main()
